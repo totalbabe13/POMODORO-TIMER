@@ -1,72 +1,65 @@
 
 
+let defaultMinuteTimer = 25;
+// let defaultBreakTimer  = [5];
+let jsTimer = 0;
+let seconds = 60;
+let secondsTimer = '00';
 
+// - - - - - - - - - - - - - - - - - - - - - - -
+//DEFAULT TIMER SETTINGS
+let activeTimerCounter = document.querySelector('#actualTimer')
+activeTimerCounter.textContent = `${defaultMinuteTimer}:${secondsTimer}`
 
-let subMinute = document.querySelector('#subMinute').addEventListener("click", subMintueSetter);
-let addMinute = document.querySelector('#addMinute').addEventListener("click", addingMinute);
-let minuteSetterDisplay = document.querySelector('#minutes')
+// - - - - - - - - - - - - - - - - - - - - - - -
+//DEFAULT SETTING FOR SESSION -->25
+let sessionMinutesSetter = document.querySelector('#minuteSetter')
+sessionMinutesSetter.textContent = defaultMinuteTimer ;
+// - - - - - - - - - - - - - - - - - - - - - - -
+// SESSION BUTTONS -->ADD/ SUBTRACT
 
-let subMinuteBreak = document.querySelector("#subMinuteBreak").addEventListener('click',subtractMinuteBreak);
-let addMinuteBreak = document.querySelector("#addMinuteBreak").addEventListener('click',addingMinuteBreak);
-let minuteSetterDisplayBreak = document.querySelector('#minutesBreak')
+//SUB button
+let subMinuteButton = document.querySelector('#subMinuteSet').addEventListener("click", subOneMinuteToSession);
+function subOneMinuteToSession() {
+	defaultMinuteTimer -= 1;
+	sessionMinutesSetter.textContent = defaultMinuteTimer;
+	console.log(defaultMinuteTimer)
+};
 
-let actualTime = document.querySelector('#actualTimer')
-
-let isTimerOn = false
-let startBUtton = document.querySelector('#pushPlay1').addEventListener("click",startTimer);
-
-let seesionTimeSetter = [25];
-let breakTimerSetter = [5];
-actualTime.textContent = seesionTimeSetter[0];
-
-minuteSetterDisplay.textContent = seesionTimeSetter;
-minuteSetterDisplayBreak.textContent = breakTimerSetter;
+//ADD button
+addMinuteButton = document.querySelector('#addMinuteSet').addEventListener("click", addOneMinuteToSession);
+function addOneMinuteToSession() {
+	defaultMinuteTimer += 1;
+	sessionMinutesSetter.textContent = defaultMinuteTimer;
+	console.log(defaultMinuteTimer)
+}
+// - - - - - - - - - - - - - - - - - - - - - - -
+//START BUTTON --> run timer!
+let startButton = document.querySelector('#pushPlay')
+startButton.addEventListener("click",startTimer)
 
 function startTimer() {
+	convertMinutesToJStime(defaultMinuteTimer);
+	timerDisplay();
 	
-	let intervalID = window.setInterval(function(){
-		subtractMinute();
-		if(seesionTimeSetter[0] === 0) {
-	  		clearInterval(intervalID);
-	  }
-	},1000);
+	let intervalID = window.setInterval(myCallback, 100);
+    function myCallback() {
+    	if (jsTimer < 1){
+    		clearInterval(nIntervId);
+        }
+
+  
+        jsTimer -= 1;
+        seconds -= 1;
+        timerDisplay(jsTimer);  
+};
+
+	// console.log(seconds)
+
+
 }
 
-function subMintueSetter () {
-	let newTime = seesionTimeSetter[0] -= 1;
-	minuteSetterDisplay.textContent = newTime;
-	actualTime.textContent = newTime;
-}
-
-
-
-function subtractMinute() {
-	let newTime = seesionTimeSetter[0] -= 1;
-	actualTime.textContent = newTime;
-    //minuteSetterDisplay.textContent = newTime;
-	console.log(seesionTimeSetter)
-
-	} 
-
-
-function addingMinute() {
-	let newTime = seesionTimeSetter[0] += 1;
-    minuteSetterDisplay.textContent = newTime;
-	console.log(seesionTimeSetter)
-}
-
-function subtractMinuteBreak() {
-	let newTime = breakTimerSetter[0] -= 1;
-    minuteSetterDisplayBreak.textContent = newTime;
-	console.log(breakTimerSetter)
-}
-
-function addingMinuteBreak() {
-	let newTime = breakTimerSetter[0] += 1;
-    minuteSetterDisplayBreak.textContent = newTime;
-	console.log(breakTimerSetter)
-
-}
+// - - - - - - - - - - - - - - - - - - - - - - -
 
 
 
@@ -78,9 +71,9 @@ function addingMinuteBreak() {
 
 // //convert mintues from user into a JS format
 // // NOTE** --> counts down in seconds (1000 = 1 second)
-// function convertMinutesToJStime(UserMinutes) {
-//   jsTimer = UserMinutes * 60
-// };
+function convertMinutesToJStime(UserMinutes) {
+  jsTimer = UserMinutes * 60
+};
 
 
 // // COUNTDOWN mechanism
@@ -88,23 +81,23 @@ function addingMinuteBreak() {
 // convertMinutesToJStime(inputTimefromUser);
 
 // //CONVERT SECONDS to display: 9sec --> 09 (11:09)
-// function convertSeconds(currentSeconds){
-//   // let secondsTimer;
-//   if(currentSeconds < 1){
-//       seconds = 60;
-//   } else if(currentSeconds < 10){
-//       secondsTimer = '0'+ currentSeconds;
-//   } else {
-//       secondsTimer = currentSeconds
-//   }
-// };
+function convertSeconds(currentSeconds){
+  if(currentSeconds < 1){
+      seconds = 60;
+  } else if(currentSeconds < 10){
+      secondsTimer = '0'+ currentSeconds;
+  } else {
+      secondsTimer = currentSeconds
+  }
+};
 
 // // 2.Ceate the timer diplay [04:36]/ from the USERS input
-// function timerDisplay(secsJS) {     
-//    let displayMinutes = (Math.floor(jsTimer/60));
-//    convertSeconds(seconds);
-//    console.log(`${displayMinutes}:${secondsTimer}`)
-// };
+function timerDisplay(jsTimer) {     
+   let displayMinutes = (Math.floor(jsTimer/60));
+   convertSeconds(seconds);
+   activeTimerCounter.textContent = `${displayMinutes}:${secondsTimer}`;
+   //console.log(`${displayMinutes}:${secondsTimer}`)
+};
 
 
 // // 3.Let the countdown change display
