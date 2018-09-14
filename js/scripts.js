@@ -67,3 +67,54 @@ function addingMinuteBreak() {
 	console.log(breakTimerSetter)
 
 }
+
+
+
+// let jsTimer = 0;
+// let inputTimefromUser = 2;
+// let minDisplay = 0;
+// let seconds = 60;
+// let secondsTimer;
+
+// //convert mintues from user into a JS format
+// // NOTE** --> counts down in seconds (1000 = 1 second)
+// function convertMinutesToJStime(UserMinutes) {
+//   jsTimer = UserMinutes * 60
+// };
+
+
+// // COUNTDOWN mechanism
+// // 1. Convert USER input into JS timer
+// convertMinutesToJStime(inputTimefromUser);
+
+// //CONVERT SECONDS to display: 9sec --> 09 (11:09)
+// function convertSeconds(currentSeconds){
+//   // let secondsTimer;
+//   if(currentSeconds < 1){
+//       seconds = 60;
+//   } else if(currentSeconds < 10){
+//       secondsTimer = '0'+ currentSeconds;
+//   } else {
+//       secondsTimer = currentSeconds
+//   }
+// };
+
+// // 2.Ceate the timer diplay [04:36]/ from the USERS input
+// function timerDisplay(secsJS) {     
+//    let displayMinutes = (Math.floor(jsTimer/60));
+//    convertSeconds(seconds);
+//    console.log(`${displayMinutes}:${secondsTimer}`)
+// };
+
+
+// // 3.Let the countdown change display
+// var intervalID = window.setInterval(myCallback, 100);
+// function myCallback() {
+//   if (jsTimer < 1){
+//     clearInterval(nIntervId);
+//   } 
+//   jsTimer -= 1;
+//   seconds -= 1;
+//   timerDisplay(jsTimer)
+  
+// };
