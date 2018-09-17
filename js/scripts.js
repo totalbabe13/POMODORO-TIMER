@@ -3,8 +3,9 @@
 let defaultMinuteTimer = 25;
 // let defaultBreakTimer  = [5];
 let jsTimer = 0;
-let seconds = 60;
+let seconds = 59;
 let secondsTimer = '00';
+let pausing = false;
 
 // - - - - - - - - - - - - - - - - - - - - - - -
 //DEFAULT TIMER SETTINGS
@@ -35,29 +36,59 @@ function addOneMinuteToSession() {
 }
 // - - - - - - - - - - - - - - - - - - - - - - -
 //START BUTTON --> run timer!
+let intervalID;
 let startButton = document.querySelector('#pushPlay')
 startButton.addEventListener("click",startTimer)
 
 function startTimer() {
 	convertMinutesToJStime(defaultMinuteTimer);
 	timerDisplay();
+	pausing = false
 	
-	let intervalID = window.setInterval(myCallback, 100);
+	let intervalID = setInterval(myCallback, 1000);
     function myCallback() {
-    	if (jsTimer < 1){
-    		clearInterval(nIntervId);
-        }
 
-  
+    	if (jsTimer < 1 || pausing === true){
+    		clearInterval(intervalID);
+          }
+
         jsTimer -= 1;
         seconds -= 1;
         timerDisplay(jsTimer);  
+    }
 };
 
-	// console.log(seconds)
+// - - - - - - - - - - - - - - - - - - - - - - -
+//PAUSE BUTTON --> pause timer!
+let pauseButton = document.querySelector('#pushPause')
+pauseButton.addEventListener("click",pauseTimer)
+
+function pauseTimer() {
+	pausing = true
+	console.log(pausing)
+};
 
 
-}
+// - - - - - - - - - - - - - - - - - - - - - - -
+//STOP BUTTON --> stop timer!
+let stopButton = document.querySelector('#pushStop')
+stopButton.addEventListener("click",stopTimer)
+
+function stopTimer() {
+
+	defaultMinuteTimer = 25;
+    jsTimer = 0;
+    seconds = 00;
+    secondsTimer = '00';
+    pausing = true;
+    
+    convertMinutesToJStime(defaultMinuteTimer)
+    timerDisplay(jsTimer);
+
+
+	console.log('STOPING')
+};
+
 
 // - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -72,7 +103,7 @@ function startTimer() {
 // //convert mintues from user into a JS format
 // // NOTE** --> counts down in seconds (1000 = 1 second)
 function convertMinutesToJStime(UserMinutes) {
-  jsTimer = UserMinutes * 60
+  jsTimer = Number(UserMinutes) * 60
 };
 
 
@@ -96,7 +127,7 @@ function timerDisplay(jsTimer) {
    let displayMinutes = (Math.floor(jsTimer/60));
    convertSeconds(seconds);
    activeTimerCounter.textContent = `${displayMinutes}:${secondsTimer}`;
-   //console.log(`${displayMinutes}:${secondsTimer}`)
+   console.log(`${displayMinutes}:${secondsTimer}`)
 };
 
 
