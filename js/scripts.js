@@ -7,7 +7,7 @@ let jsBreakTimer = 0;
 let seconds = 59;
 let secondsTimer = '00';
 let pausing = false;
-let breakstop = false
+let breakActive = 0;
 
 // - - - - - - - - - - - - - - - - - - - - - - -
 //DEFAULT TIMER SETTINGS
@@ -72,24 +72,29 @@ function startTimer() {
     	jsTimer -= 1;
         seconds -= 1;
         timerDisplay(jsTimer);
+        console.log(`jsTimer during session: ${jsTimer}`)
 
-    	if (jsTimer < 1 ){
-    		convertMinutesToJStime(defaultBreakTimer);
-    		timerDisplay(jsTimer);
-    		breakstop = true
-    		console.log(jsTimer)
-    		    if (jsTimer === 1 ){
-    		       activeTimerCounter.textContent = `00:00`;
-    		       clearInterval(intervalID);    		       
-    		    };
-          } else if(pausing === true) {
-          	  clearInterval(intervalID);
-          }
+        if(jsTimer < 1 ) {
+        	breakActive += 1;
+           convertMinutesToJStime(defaultBreakTimer);
+    	   timerDisplay(jsTimer);
+    	   jsTimer -= 1;
+           seconds -= 1;
+           console.log(`first if statment and the js timer: ${jsTimer}`)
+    	   
+    	     if (jsTimer < 1 ){
+    	     	console.log('second if statment')
+    			return activeTimerCounter.textContent = `00:00`;
+    			clearInterval(intervalID);    		       
+             }
+      } else if(pausing === true) {
+          	clearInterval(intervalID);
+        };
     }
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - -
-//HELPER FUNCTION --> !
+//HELPER FUNCTIONS --> !
 
 // // NOTE** --> counts down in seconds (1000 = 1 second)
 function convertMinutesToJStime(UserMinutes) {
